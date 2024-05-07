@@ -1,6 +1,6 @@
 import os
 from openai import AzureOpenAI
-from collections import defaultdict
+import pandas as pd
 
 from azure.ai.generative.synthetic.qa import QADataGenerator
 from azure.ai.generative.synthetic.qa import QAType
@@ -25,14 +25,6 @@ class SyntheticDataGenerator:
         
         aoai_connection = self.eval_client.get_default_aoai_connection()
         aoai_connection.set_current_environment()
-        
-        self.model_config = dict(deployment=os.getenv("MODEL_NAME"),
-                            model=os.getenv("MODEL_NAME"),
-                            max_tokens=2000)
-
-        self.qa_generator = QADataGenerator(model_config=self.model_config)
-        self.qa_type = QAType.LONG_ANSWER
-
 
     def generate_dataset(self, system_prompt, user_prompt):
         message_text = [{"role":"system",
@@ -54,24 +46,5 @@ class SyntheticDataGenerator:
         
         return completion.choices[0].message.content
     
-    def generate_qa_evaluation_dataset(self, data, field_name, num_questions=3):
-        data_dict = defaultdict(list)
-
-        # Generate questions and answers for the content
-        for item in data:
-            text = item[field_name]
-            result = self.qa_generator.generate(text=text,
-                                                qa_type=self.qa_type,
-                                                num_questions=num_questions)
-
-            for question, answer in result["question_answers"]:
-                print(f"Q: {question}")
-                print(f"A: {answer}")
-                
-                data_dict["question"].append(question)  # Consider generated answer as the ground truth
-                data_dict["ground_truth"].append(answer)  # Consider generated answer as the ground truth
-
-                print(f"Tokens used: {result['token_usage']}")
-                print("\n")
-
-        return data_dict
+    def generate_qa_evaluation_dataset():
+        pass

@@ -43,5 +43,4 @@ The processed datasets are available in the [`data`](./data/) folder.
 ## Resources
 
 - [How to generate question and answer pairs from your source dataset](https://learn.microsoft.com/en-us/azure/ai-studio/how-to/generate-data-qa)
-- [Evaluation of generative AI applications
-](https://learn.microsoft.com/en-us/azure/ai-studio/concepts/evaluation-approach-gen-ai)
+- [Evaluation of generative AI applications](https://learn.microsoft.com/en-us/azure/ai-studio/concepts/evaluation-approach-gen-ai)
