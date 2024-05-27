@@ -8,7 +8,7 @@ from tenacity import retry, wait_random_exponential, stop_after_attempt
 from dotenv import load_dotenv, find_dotenv
 from azure.search.documents.indexes.models import (
     SearchIndex,
-    SemanticSettings
+    SemanticSearch
 )
 
 load_dotenv(find_dotenv(), override=True) 
@@ -29,7 +29,7 @@ class AzureIndexManager:
         
 
     def create_index(self, index_name, fields, vector_search_config, semantic_config):
-        semantic_settings = SemanticSettings(configurations=[semantic_config])
+        semantic_settings = SemanticSearch(configurations=[semantic_config])
         
         # Create the search index with the semantic settings
         index = SearchIndex(name=index_name, 

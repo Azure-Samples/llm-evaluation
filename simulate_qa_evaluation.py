@@ -19,7 +19,11 @@ def get_sample_index_data(top=10):
     'api-key': os.getenv("AZURE_AI_SEARCH_KEY")
     }
 
-    response = requests.request("POST", os.getenv("AZURE_AI_SEARCH_SERVICE"), headers=headers, data=payload)
+    response = requests.request("POST", ''.join([os.getenv("AZURE_AI_SEARCH_ENDPOINT"),
+                                                 '/indexes/', 
+                                                 os.getenv("AZURE_AI_SEARCH_INDEX_NAME"),
+                                                 '/docs/search?api-version=2023-11-01']),
+                                                 headers=headers, data=payload)
     return json.loads(response.text)['value']
 
 if __name__ == '__main__':
@@ -33,7 +37,7 @@ if __name__ == '__main__':
     data = generator.generate_qa_evaluation_dataset(data, "synopsis")
     
     # Export to jsonl file (for using on Azure AI Studio)
-    output_file = "data\movies-generated-qa-EN-US.jsonl"
+    output_file = "llm-evaluation/data/movies-generated-qa-EN-US.jsonl"
     data_df = pd.DataFrame(data, columns=list(data.keys()))
     data_df.to_json(output_file, lines=True, orient="records")
     

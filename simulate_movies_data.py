@@ -7,16 +7,13 @@ from azure.search.documents.indexes.models import (
     SearchField,
     SimpleField,
     VectorSearch,
-    HnswVectorSearchAlgorithmConfiguration,
+    HnswAlgorithmConfiguration,
     HnswParameters,
-    VectorSearchAlgorithmKind,
-    ExhaustiveKnnVectorSearchAlgorithmConfiguration,
-    ExhaustiveKnnParameters,
     VectorSearchProfile,
     AzureOpenAIVectorizer,
     AzureOpenAIParameters,
     SemanticConfiguration,
-    PrioritizedFields,
+    SemanticPrioritizedFields,
     SemanticField
 )
 from concurrent.futures import ThreadPoolExecutor
@@ -41,10 +38,10 @@ def get_movies_synthetic_data(generate_new_data=False):
         synthetic_data = clean_data(synthetic_data)
         
         # Persist json dataset to a file
-        with open("data/movies_EN-US.json", "w") as file:
+        with open("llm-evaluation/data/movies_EN-US.json", "w") as file:
             file.write(json.dumps(synthetic_data))
     else:
-        synthetic_data = load_synthetic_data('movies_EN-US.json')
+        synthetic_data = load_synthetic_data('llm-evaluation/data/movies_EN-US.json')
 
     return synthetic_data
 
@@ -95,28 +92,21 @@ def create_movies_index(index_name):
     SearchableField(name="director", type=SearchFieldDataType.String, analyzer_name='en.microsoft', sortable=True, filterable=True, facetable=False),
     SimpleField(name="release_year", type=SearchFieldDataType.Int32),
     SearchField(name="synopsisVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
-                searchable=True, vector_search_dimensions=1536, vector_search_profile="myHnswProfile"),
+                searchable=True, vector_search_dimensions=1536, vector_search_profile_name="myHnswProfile"),
     SearchField(name="genreVector", type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
-                searchable=True, vector_search_dimensions=1536, vector_search_profile="myHnswProfile"),
+                searchable=True, vector_search_dimensions=1536, vector_search_profile_name="myHnswProfile"),
     ]
     
     # Configure the vector search configuration  
     vector_search = VectorSearch(
         algorithms=[
-            HnswVectorSearchAlgorithmConfiguration(
+            HnswAlgorithmConfiguration(
                 name="myHnsw",
-                kind=VectorSearchAlgorithmKind.HNSW,
+                kind="hnsw",
                 parameters=HnswParameters(
                     m=4,
                     ef_construction=400,
                     ef_search=500,
-                    metric="cosine"
-                )
-            ),
-            ExhaustiveKnnVectorSearchAlgorithmConfiguration(
-                name="myExhaustiveKnn",
-                kind=VectorSearchAlgorithmKind.EXHAUSTIVE_KNN,
-                parameters=ExhaustiveKnnParameters(
                     metric="cosine"
                 )
             )
@@ -124,12 +114,7 @@ def create_movies_index(index_name):
         profiles=[
             VectorSearchProfile(
                 name="myHnswProfile",
-                algorithm="myHnsw",
-                vectorizer="myOpenAI"
-            ),
-            VectorSearchProfile(
-                name="myExhaustiveKnnProfile",
-                algorithm="myExhaustiveKnn",
+                algorithm_configuration_name="myHnsw",
                 vectorizer="myOpenAI"
             )
         ],
@@ -150,7 +135,7 @@ def create_movies_index(index_name):
     # Configure the semantic settings
     semantic_config = SemanticConfiguration(
         name="my-semantic-config",
-        prioritized_fields=PrioritizedFields(
+        prioritized_fields=SemanticPrioritizedFields(
             title_field=SemanticField(field_name="title"),
             prioritized_keywords_fields=[SemanticField(field_name="genre")],
             prioritized_content_fields=[SemanticField(field_name="synopsis")]
