@@ -1,6 +1,6 @@
 # Evaluate your LLMs using Synthetic Data Generation
 
-This project is a framework to generate synthetic data and evaluate your LLMs. It is based on the [Azure AI SDK synthetic data generation](https://learn.microsoft.com/en-us/azure/ai-studio/how-to/generate-data-qa) and helps you to evaluate your LLMs on the generated data. This data can then be used for various purposes like unit testing for your LLM lookup, evaluation and iteration of retrieval augmented generation (RAG) flows, and prompt tuning.
+This project is a framework to generate synthetic data and evaluate your LLMs. It is based on some experimental methods from [Azure AI SDK](https://learn.microsoft.com/en-us/azure/ai-studio/how-to/develop/sdk-overview) and helps you to evaluate your LLMs on the generated data. This data can then be used for various purposes like unit testing for your LLM lookup, evaluation and iteration of retrieval augmented generation (RAG) flows, and prompt tuning.
 
 We will use the dataset to create an evaluation project on Azure AI Studio.
 
@@ -74,5 +74,5 @@ Notice that the results demonstrate a low performance for these two samples. It 
 
 ## Resources
 
-- [How to generate question and answer pairs from your source dataset](https://learn.microsoft.com/en-us/azure/ai-studio/how-to/generate-data-qa)
 - [Evaluation of generative AI applications](https://learn.microsoft.com/en-us/azure/ai-studio/concepts/evaluation-approach-gen-ai)
+- [How to evaluate generative AI apps with Azure AI Studio](https://learn.microsoft.com/en-us/azure/ai-studio/how-to/evaluate-generative-ai-app)
