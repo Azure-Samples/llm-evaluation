@@ -69,15 +69,8 @@ Notice that the results demonstrate a low performance for these two samples. It 
 - You must have the [Azure AI Search](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search) service deployed in your Azure subscription.
 - Python 3.11
 
-### Required Libraries
-
-- openai
-- python-dotenv
-- azure-search-documents==11.4.0b6
-- azure-identity
-- azure-ai-generative
-- pandas
-- tenacity
+### Install required Libs
+`pip install -r requirements.txt`
 
 ## Resources
 
