@@ -14,7 +14,7 @@ azure-storage-blob==12.20.0
 azure-storage-file-datalake==12.15.0
 azure-storage-file-share==12.16.0
 cachetools==5.3.3
-certifi==2024.2.2
+certifi==2024.7.4
 cffi==1.16.0
 charset-normalizer==3.3.2
 click==8.1.7
