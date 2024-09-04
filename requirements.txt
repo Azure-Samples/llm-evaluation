@@ -20,7 +20,7 @@ charset-normalizer==3.3.2
 click==8.1.7
 cloudpickle==3.0.0
 colorama==0.4.6
-cryptography==42.0.7
+cryptography==43.0.1
 Deprecated==1.2.14
 distro==1.9.0
 entrypoints==0.4
